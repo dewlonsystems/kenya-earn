@@ -1,6 +1,5 @@
 // src/pages/Profile.js
 import React, { useState, useEffect } from 'react';
-import API_BASE_URL from '../config';
 import {
   Box,
   Typography,
@@ -67,7 +66,7 @@ export default function Profile() {
   const handleSave = async () => {
     setMessage('');
     try {
-      const res = await axios.put('${API_BASE_URL}/api/profile/', {
+      const res = await axios.put('https://kenya-earn-backend.onrender.com/api/profile/', {
         phone_number: formData.phone_number,
         city: formData.city,
         address: formData.address,

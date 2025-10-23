@@ -1,6 +1,5 @@
 // src/pages/Tasks.js
 import React, { useState, useEffect } from 'react';
-import API_BASE_URL from '../config';
 import {
   Box,
   Typography,
@@ -42,7 +41,7 @@ export default function Tasks() {
       setError('');
       try {
         const status = TABS[activeTab];
-        const res = await axios.get(`${API_BASE_URL}/api/tasks/?status=${status}`);
+        const res = await axios.get(`https://kenya-earn-backend.onrender.com/api/tasks/?status=${status}`);
         setTasks(res.data);
       } catch (err) {
         console.error(err);
@@ -96,9 +95,9 @@ export default function Tasks() {
 
   const handleAccept = async (taskId) => {
     try {
-      await axios.post(`${API_BASE_URL}/api/tasks/${taskId}/submit/`);
+      await axios.post(`https://kenya-earn-backend.onrender.com/api/tasks/${taskId}/submit/`);
       const status = TABS[activeTab];
-      const res = await axios.get(`${API_BASE_URL}/api/tasks/?status=${status}`);
+      const res = await axios.get(`https://kenya-earn-backend.onrender.com/api/tasks/?status=${status}`);
       setTasks(res.data);
     } catch (error) {
       alert('Failed to accept task. Please try again.');
@@ -107,7 +106,7 @@ export default function Tasks() {
 
   const handleSubmit = async (taskId) => {
     try {
-      const res = await axios.get(`${API_BASE_URL}/api/tasks/?status=pending`);
+      const res = await axios.get(`https://kenya-earn-backend.onrender.com/api/tasks/?status=pending`);
       setTasks(res.data);
       setActiveTab(TABS.indexOf('submitted'));
     } catch (error) {

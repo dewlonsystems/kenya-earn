@@ -1,6 +1,5 @@
 // src/pages/Wallet.js
 import React, { useEffect, useState } from 'react';
-import API_BASE_URL from '../config';
 import {
   Box,
   Typography,
@@ -54,7 +53,7 @@ export default function Wallet() {
   useEffect(() => {
     const fetchWallet = async () => {
       try {
-        const res = await axios.get('${API_BASE_URL}/api/wallet/');
+        const res = await axios.get('https://kenya-earn-backend.onrender.com/api/wallet/');
         setWalletData(res.data);
       } catch (error) {
         console.error(error);
@@ -94,7 +93,7 @@ export default function Wallet() {
     setSubmitting(true);
     setError('');
     try {
-      await axios.post('${API_BASE_URL}/api/wallet/withdraw/', {
+      await axios.post('https://kenya-earn-backend.onrender.com/api/wallet/withdraw/', {
         amount: withdrawAmount,
         phone_number: profile?.phone_number,
       });
@@ -102,7 +101,7 @@ export default function Wallet() {
       setWithdrawOpen(false);
       setWithdrawAmount('');
       // Refresh wallet
-      const res = await axios.get('${API_BASE_URL}/api/wallet/');
+      const res = await axios.get('https://kenya-earn-backend.onrender.com/api/wallet/');
       setWalletData(res.data);
     } catch (err) {
       setError(err.response?.data?.error || 'Withdrawal failed. Please try again.');
@@ -128,7 +127,7 @@ export default function Wallet() {
     setSubmitting(true);
     setError('');
     try {
-      await axios.post('${API_BASE_URL}/api/wallet/transfer/', {
+      await axios.post('https://kenya-earn-backend.onrender.com/api/wallet/transfer/', {
         recipient_code: transferRecipient,
         amount: transferAmount,
       });
@@ -137,7 +136,7 @@ export default function Wallet() {
       setTransferAmount('');
       setTransferRecipient('');
       // Refresh wallet
-      const res = await axios.get('${API_BASE_URL}/api/wallet/');
+      const res = await axios.get('https://kenya-earn-backend.onrender.com/api/wallet/');
       setWalletData(res.data);
     } catch (err) {
       setError(err.response?.data?.error || 'Transfer failed. Please try again.');

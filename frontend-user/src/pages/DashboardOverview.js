@@ -1,6 +1,5 @@
 // src/pages/DashboardOverview.js
 import React, { useEffect, useState } from 'react';
-import API_BASE_URL from '../config';
 import {
   Box,
   Typography,
@@ -60,7 +59,7 @@ export default function DashboardOverview() {
   useEffect(() => {
     const fetchDashboard = async () => {
       try {
-        const res = await axios.get('${API_BASE_URL}/api/dashboard/');
+        const res = await axios.get('https://kenya-earn-backend.onrender.comapi/dashboard/');
         setDashboardData(res.data);
       } catch (error) {
         console.error(error);
