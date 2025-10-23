@@ -2,8 +2,8 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import API_BASE_URL from './config';
 import axios from 'axios';
+import API_BASE_URL from './config';
 
 const AuthContext = createContext();
 
