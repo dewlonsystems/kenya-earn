@@ -1,0 +1,22 @@
+# Django
+*.pyc
+__pycache__/
+db.sqlite3
+media/
+staticfiles/
+
+# Env
+.env
+
+# Python
+venv/
+env/
+.venv/
+
+# Firebase (if you have the JSON file locally)
+firebase-service-account.json
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
