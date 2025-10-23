@@ -2,6 +2,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
+import API_BASE_URL from './config';
 import axios from 'axios';
 
 const AuthContext = createContext();
@@ -24,7 +25,7 @@ export function AuthProvider({ children }) {
           setCurrentUser(user);
 
           // Try to fetch Django profile
-          const res = await axios.get('http://localhost:8000/api/profile/');
+          const res = await axios.get('${API_BASE_URL}/api/profile/');
           setProfile(res.data);
         } catch (error) {
           // Profile doesn't exist yet — that's OK

@@ -1,5 +1,6 @@
 // src/pages/Settings.js
 import React, { useState, useEffect } from 'react';
+import API_BASE_URL from './config';
 import {
   Box,
   Typography,
@@ -33,7 +34,7 @@ export default function Settings() {
 
   const handleThemeChange = async (newTheme) => {
     try {
-      await axios.put('http://localhost:8000/api/settings/', { theme_preference: newTheme });
+      await axios.put('${API_BASE_URL}/api/settings/', { theme_preference: newTheme });
       setProfile({ ...profile, theme_preference: newTheme });
       setMessage('Theme updated successfully!');
       setTimeout(() => setMessage(''), 3000);
@@ -50,7 +51,7 @@ export default function Settings() {
   const handleDeleteConfirm = async () => {
     setDeleting(true);
     try {
-      await axios.delete('http://localhost:8000/api/account/delete/');
+      await axios.delete('${API_BASE_URL}/api/account/delete/');
       // Also delete Firebase user
       const { getAuth, deleteUser } = await import('firebase/auth');
       const { auth } = await import('../firebase');

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import axios from 'axios';
+import API_BASE_URL from './config';
 import { Container, Typography, Box, Button, Alert, Paper, Grid } from '@mui/material';
 
 export default function Dashboard() {
@@ -14,7 +15,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchDashboard = async () => {
       try {
-        const res = await axios.get('http://localhost:8000/api/dashboard/');
+        const res = await axios.get('${API_BASE_URL}/api/dashboard/');
         setDashboardData(res.data);
       } catch (error) {
         console.error(error);

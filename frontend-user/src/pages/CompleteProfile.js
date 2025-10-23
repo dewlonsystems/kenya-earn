@@ -1,5 +1,6 @@
 // src/pages/CompleteProfile.js
 import React, { useState, useEffect, useRef } from 'react';
+import API_BASE_URL from './config';
 import {
   Box,
   Typography,
@@ -167,7 +168,7 @@ export default function CompleteProfile() {
       const token = await currentUser.getIdToken();
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-      const res = await axios.post('http://localhost:8000/api/profile/complete/', {
+      const res = await axios.post('${API_BASE_URL}/api/profile/complete/', {
         phone_number: formData.phone_number,
         city: formData.city,
         address: formData.address,

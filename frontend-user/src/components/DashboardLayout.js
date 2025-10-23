@@ -1,5 +1,6 @@
 // src/components/DashboardLayout.js
 import React, { useState, useEffect } from 'react';
+import API_BASE_URL from './config';
 import {
   Box,
   Drawer,
@@ -99,7 +100,7 @@ export default function DashboardLayout({ children }) {
   const handleThemeToggle = async () => {
     const newTheme = profile?.theme_preference === 'dark' ? 'light' : 'dark';
     try {
-      await axios.put('http://localhost:8000/api/settings/', { theme_preference: newTheme });
+      await axios.put('${API_BASE_URL}/api/settings/', { theme_preference: newTheme });
       setProfile({ ...profile, theme_preference: newTheme });
     } catch (error) {
       console.error('Failed to update theme');
