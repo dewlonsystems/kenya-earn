@@ -114,7 +114,7 @@ if DEBUG:
 else:
     # ⚠️ Remove trailing spaces!
     CORS_ALLOWED_ORIGINS = [
-        "https://freelancer-tawny.vercel.app/",
+        "https://freelancer-tawny.vercel.app",
     ]
 
 # Firebase: Load credentials securely
