@@ -1,4 +1,5 @@
 import os
+import json
 from pathlib import Path
 from decouple import config
 
@@ -12,7 +13,7 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 if DEBUG:
     ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 else:
-    ALLOWED_HOSTS = ['.onrender.com']  # Only Render in production
+    ALLOWED_HOSTS = ['.onrender.com']  # Render subdomain wildcard
 
 # Application definition
 INSTALLED_APPS = [
@@ -25,7 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
-    'whitenoise.runserver_nostatic',  # for static files in prod
+    'whitenoise.runserver_nostatic',
 ]
 
 MIDDLEWARE = [
@@ -63,7 +64,6 @@ WSGI_APPLICATION = 'kenya_earn.wsgi.application'
 
 # Database
 if DEBUG:
-    # Use SQLite for local development (easy, no setup)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -71,7 +71,7 @@ if DEBUG:
         }
     }
 else:
-    # Use Supabase in production (Render)
+    # Render + Supabase (or any PostgreSQL)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -92,7 +92,7 @@ TIME_ZONE = 'Africa/Nairobi'
 USE_I18N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
+# Static files
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -106,21 +106,30 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [],
 }
 
-# CORS Settings — allow Vercel frontend
+# CORS Settings
 if DEBUG:
-    # During local dev, allow frontend on localhost
     CORS_ALLOWED_ORIGINS = [
         "http://localhost:3000",
     ]
 else:
-    # In production, only allow your Vercel app
-    # Replace with your actual Vercel URL after deploy
+    # ⚠️ Remove trailing spaces!
     CORS_ALLOWED_ORIGINS = [
-        "https://kenya-earn-frontend.vercel.app",
+        "https://freelancer-tawny.vercel.app/",
     ]
 
-# Firebase
-FIREBASE_SERVICE_ACCOUNT_PATH = os.path.join(BASE_DIR, config('FIREBASE_SERVICE_ACCOUNT_PATH', default='firebase-service-account.json'))
+# Firebase: Load credentials securely
+FIREBASE_SERVICE_ACCOUNT_JSON = config('FIREBASE_SERVICE_ACCOUNT_JSON', default=None)
+
+if FIREBASE_SERVICE_ACCOUNT_JSON:
+    # Production: load from environment variable (JSON string)
+    import firebase_admin
+    from firebase_admin import credentials
+    firebase_dict = json.loads(FIREBASE_SERVICE_ACCOUNT_JSON)
+    FIREBASE_CREDENTIALS = credentials.Certificate(firebase_dict)
+else:
+    # Local development fallback (optional)
+    firebase_path = config('FIREBASE_SERVICE_ACCOUNT_PATH', default='firebase-service-account.json')
+    FIREBASE_CREDENTIALS = os.path.join(BASE_DIR, firebase_path)
 
 # Paystack
 PAYSTACK_PUBLIC_KEY = config('PAYSTACK_PUBLIC_KEY', default='pk_test_xxx')

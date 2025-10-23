@@ -1,16 +1,21 @@
 # kenya-earn/backend/kenya_earn/middleware.py
-import json
 import firebase_admin
 from firebase_admin import credentials, auth
 from django.conf import settings
 from django.http import JsonResponse
 from django.utils.deprecation import MiddlewareMixin
-import os
+
 
 # Initialize Firebase only once
 if not firebase_admin._apps:
-    cred = credentials.Certificate(settings.FIREBASE_SERVICE_ACCOUNT_PATH)
-    firebase_admin.initialize_app(cred)
+    cred = settings.FIREBASE_CREDENTIALS
+    # If it's a string, treat as file path (local dev)
+    if isinstance(cred, str):
+        firebase_admin.initialize_app(credentials.Certificate(cred))
+    else:
+        # It's already a Certificate object (production)
+        firebase_admin.initialize_app(cred)
+
 
 class FirebaseAuthenticationMiddleware(MiddlewareMixin):
     def process_request(self, request):
