@@ -1,6 +1,6 @@
 // src/pages/CompleteProfile.js
 import React, { useState, useEffect, useRef } from 'react';
-import API_BASE_URL from './config';
+import API_BASE_URL from '../config';
 import {
   Box,
   Typography,
